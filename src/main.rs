@@ -3,7 +3,7 @@ extern crate os_release;
 
 use os_release::OsRelease;
 use std::io;
-
+use std::collections::HashMap;
 #[derive(Debug)]
 enum DistrosLogo {
     ArchLinux,
@@ -63,6 +63,14 @@ fn get_distro_name() -> String {
 fn get_distro_pretty_name() -> String {
     let release = OsRelease::new().unwrap();
     release.pretty_name
+}
+
+fn make_data() -> HashMap<String, String> {
+    let mut data = HashMap::new();
+    data.insert("distro".to_string(), format!("{:?}", auto_determine_distro()));
+    data.insert("distro.version".to_string(), get_distro_version());
+    data.insert("distro.name".to_string(), get_distro_name());
+    data.insert("distro.pretty_name".to_string(), get_distro_pretty_name());
 }
 
 fn main() {
